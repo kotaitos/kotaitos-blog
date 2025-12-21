@@ -1,16 +1,18 @@
-import type { Metadata } from 'next';
-import Footer from '@/app/_component/organism/footer';
-import { Inter } from 'next/font/google';
-import Analytics from '@/app/_component/atom/analytics';
-import './globals.css';
-import Header from '@/app/_component/organism/header';
+import type { Metadata } from "next";
+import { JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+import { Footer } from "@/shared/components/Footer";
+import { Navigation } from "@/shared/components/Navigation";
 
-const inter = Inter({ subsets: ['latin'] });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost'),
-  title: 'Kotaitos Developer Blog',
-  description: 'Kotaitos Developer Blog',
+  title: "Kotaitos Blog",
+  description: "ポートフォリオ兼ブログサイト",
 };
 
 export default function RootLayout({
@@ -19,47 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <head>
-        <link
-          rel='apple-touch-icon'
-          sizes='180x180'
-          href='/favicon/apple-touch-icon.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='32x32'
-          href='/favicon/favicon-32x32.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='16x16'
-          href='/favicon/favicon-16x16.png'
-        />
-        <link rel='manifest' href='/favicon/site.webmanifest' />
-        <link
-          rel='mask-icon'
-          href='/favicon/safari-pinned-tab.svg'
-          color='#000000'
-        />
-        <link rel='shortcut icon' href='/favicon/favicon.ico' />
-        <meta name='msapplication-TileColor' content='#000000' />
-        <meta
-          name='msapplication-config'
-          content='/favicon/browserconfig.xml'
-        />
-        <meta name='theme-color' content='#000' />
-        <link rel='alternate' type='application/rss+xml' href='/feed.xml' />
-        <Analytics />
-      </head>
-      <body className={inter.className}>
-        <div className='max-w-screen-lg mx-auto'>
-          <Header />
-          <div className='min-h-screen'>{children}</div>
-          <Footer />
-        </div>
+    <html lang="ja" className={`scroll-smooth ${jetbrainsMono.variable}`}>
+      <body className="flex flex-col min-h-screen font-mono">
+        <Navigation />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
