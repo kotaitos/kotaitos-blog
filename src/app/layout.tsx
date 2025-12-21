@@ -11,8 +11,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kotaitos Blog",
-  description: "ポートフォリオ兼ブログサイト",
+  title: "kotaitos",
+  description: "kotaitos's website",
 };
 
 export default function RootLayout({
