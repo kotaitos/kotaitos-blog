@@ -1,0 +1,9 @@
+**/*.css
+**/*.md
+src/APITester.tsx
+src/App.tsx
+src/frontend.tsx
+src/index.ts
+src/index.html
+src/index.css
+
