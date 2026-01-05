@@ -94,6 +94,12 @@ function getEventDetails(event: GitHubEvent) {
   }
 }
 
+import { GitHubStats } from "./GitHubStats";
+
+// ... (existing imports and types)
+
+// ... (existing functions)
+
 export async function RecentActivity({ page = 1 }: { page?: number }) {
   const currentPage = Math.max(1, Math.min(page, MAX_PAGES));
   const events = await getGitHubActivity(currentPage);
@@ -101,8 +107,9 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
   if (events.length === 0) {
     return (
       <div className="w-full mt-6 font-mono">
-        <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
-          &gt; Recent GitHub Logs
+        <GitHubStats />
+        <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
+          &gt; System.Activity.Recent --limit=30
         </h2>
         <div className="border-l border-border/50 pl-3 ml-1 text-muted-foreground/50 text-[10.5px]">
           No logs found.
@@ -123,11 +130,9 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
 
   return (
     <div className="w-full mt-6 font-mono">
-      <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 flex items-center gap-4">
-        <span>&gt; Recent GitHub Logs</span>
-        <span className="text-[9px] normal-case font-normal">
-          {currentPage} / {MAX_PAGES}
-        </span>
+      <GitHubStats />
+      <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
+        &gt; System.Activity.Recent --limit=30
       </h2>
       <div className="space-y-0.5 border-l border-border/50 pl-3 ml-1">
         {events.map((event) => (
