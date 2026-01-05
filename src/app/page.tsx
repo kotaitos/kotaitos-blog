@@ -1,6 +1,7 @@
 import { LanguageStats } from "@/features/github/LanguageStats";
 import { RecentActivity } from "@/features/github/RecentActivity";
 import { NeofetchProfile } from "@/features/profile/NeofetchProfile";
+import { ZennArticles } from "@/features/zenn/ZennArticles";
 
 export default async function Home({
   searchParams,
@@ -12,12 +13,15 @@ export default async function Home({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-        <div className="space-y-12">
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="space-y-12 lg:col-span-3">
           <NeofetchProfile />
           <LanguageStats />
+          <ZennArticles />
         </div>
-        <RecentActivity page={page} />
+        <div className="lg:col-span-2">
+          <RecentActivity page={page} />
+        </div>
       </div>
     </div>
   );

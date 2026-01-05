@@ -153,7 +153,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
               <Link
                 href={`https://github.com/${event.repo.name}`}
                 target="_blank"
-                className="font-bold hover:text-primary transition-colors shrink-0 truncate max-w-[160px]"
+                className="font-bold hover:text-primary transition-colors shrink-0 truncate max-w-[240px]"
               >
                 {event.repo.name.split("/")[1] || event.repo.name}
               </Link>
