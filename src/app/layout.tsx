@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import ClickSpark from "@/shared/components/ClickSpark";
 import { Footer } from "@/shared/components/Footer";
 import { Navigation } from "@/shared/components/Navigation";
 
@@ -22,10 +23,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`scroll-smooth ${jetbrainsMono.variable}`}>
-      <body className="flex flex-col min-h-screen font-mono">
-        <Navigation />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="font-mono">
+        <ClickSpark
+          sparkColor="#22c55e"
+          sparkSize={8}
+          sparkRadius={20}
+          sparkCount={8}
+          duration={400}
+        >
+          <div className="flex flex-col min-h-screen">
+            <Navigation />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </ClickSpark>
       </body>
     </html>
   );
