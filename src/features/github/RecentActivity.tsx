@@ -109,7 +109,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
       <div className="w-full mt-6 font-mono">
         <GitHubStats />
         <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
-          &gt; System.Activity.Recent --limit=30
+          &gt; GitHub.Activity.Recent --limit=30
         </h2>
         <div className="border-l border-border/50 pl-3 ml-1 text-muted-foreground/50 text-[10.5px]">
           No logs found.
@@ -132,7 +132,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
     <div className="w-full mt-6 font-mono">
       <GitHubStats />
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
-        &gt; System.Activity.Recent --limit=30
+        &gt; GitHub.Activity.Recent --limit=30
       </h2>
       <div className="space-y-0.5 border-l border-border/50 pl-3 ml-1">
         {events.map((event) => (
