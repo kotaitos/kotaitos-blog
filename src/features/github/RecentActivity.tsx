@@ -100,12 +100,14 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
 
   if (events.length === 0) {
     return (
-      <div className="w-full max-w-2xl mr-auto mt-8 font-mono">
-        <h2 className="text-sm font-bold mb-2 uppercase tracking-tighter opacity-50">
-          &gt; System.Activity.Recent
+      <div className="w-full mt-6 font-mono">
+        <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
+          &gt; Recent GitHub Logs
         </h2>
-        <p className="text-xs text-muted-foreground">No logs found.</p>
-        <div className="mt-4 flex gap-4 text-xs">
+        <div className="border-l border-border/50 pl-3 ml-1 text-muted-foreground/50 text-[10.5px]">
+          No logs found.
+        </div>
+        <div className="mt-4 flex gap-4 text-xs ml-4">
           {currentPage > 1 && (
             <Link
               href={`/?page=${currentPage - 1}`}
@@ -120,7 +122,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
   }
 
   return (
-    <div className="w-full max-w-[50%] mr-auto mt-6 font-mono">
+    <div className="w-full mt-6 font-mono">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 flex items-center gap-4">
         <span>&gt; Recent GitHub Logs</span>
         <span className="text-[9px] normal-case font-normal">
