@@ -1,3 +1,4 @@
+import { LanguageStats } from "@/features/github/LanguageStats";
 import { RecentActivity } from "@/features/github/RecentActivity";
 
 export default async function Home({
@@ -10,7 +11,10 @@ export default async function Home({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <RecentActivity page={page} />
+      <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <RecentActivity page={page} />
+        <LanguageStats />
+      </div>
     </div>
   );
 }
