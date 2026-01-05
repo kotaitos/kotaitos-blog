@@ -71,7 +71,7 @@ export async function LanguageStats() {
   return (
     <div className="w-full font-mono mt-6">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
-        &gt; System.Stats.Languages
+        &gt; GitHub.Stats.Languages
       </h2>
       <div className="space-y-1 border-l border-border/50 pl-3 ml-1">
         {languages.map((lang) => (

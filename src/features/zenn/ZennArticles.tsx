@@ -62,7 +62,7 @@ export async function ZennArticles() {
   return (
     <div className="w-full font-mono mt-6">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
-        &gt; System.Activity.Writing
+        &gt; Zenn.Activity.Writing
       </h2>
       <div className="space-y-1 border-l border-border/50 pl-3 ml-1">
         {articles.map((article) => (

@@ -52,7 +52,7 @@ export async function GitHubStats() {
   return (
     <div className="mb-6 font-mono text-[10.5px] text-muted-foreground/60">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
-        &gt; System.Stats.Fetch --scope=public
+        &gt; GitHub.Stats.Fetch --scope=public
       </h2>
       <div className="flex gap-4 border-b border-border/30 pb-2 mb-2 w-fit">
         <span className="flex gap-1.5">
