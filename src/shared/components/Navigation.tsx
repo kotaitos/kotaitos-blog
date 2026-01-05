@@ -19,6 +19,7 @@ export function Navigation() {
               className="text-foreground hover:text-primary transition-colors"
               aria-label="GitHub"
             >
+              <span className="sr-only">GitHub</span>
               <svg
                 className="w-5 h-5"
                 fill="currentColor"
