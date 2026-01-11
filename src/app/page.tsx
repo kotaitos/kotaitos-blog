@@ -1,5 +1,6 @@
 import { LanguageStats } from "@/features/github/LanguageStats";
 import { RecentActivity } from "@/features/github/RecentActivity";
+import { LeetCodeProfile } from "@/features/leetcode/LeetCodeProfile";
 import { NeofetchProfile } from "@/features/profile/NeofetchProfile";
 import { ZennArticles } from "@/features/zenn/ZennArticles";
 
@@ -18,6 +19,7 @@ export default async function Home({
           <NeofetchProfile />
           <LanguageStats />
           <ZennArticles />
+          <LeetCodeProfile />
         </div>
         <div className="lg:col-span-2">
           <RecentActivity page={page} />
