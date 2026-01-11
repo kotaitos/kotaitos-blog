@@ -1,3 +1,4 @@
+import { LeetCode } from "leetcode-query";
 import Link from "next/link";
 
 type GitHubEvent = {
@@ -6,7 +7,6 @@ type GitHubEvent = {
   created_at: string;
   repo: {
     name: string;
-    url: string;
   };
   payload: {
     action?: string;
@@ -26,6 +26,25 @@ type GitHubEvent = {
   };
 };
 
+type LeetCodeSubmission = {
+  timestamp: string;
+  title: string;
+  titleSlug: string;
+  statusDisplay: string;
+  lang: string;
+};
+
+type UnifiedActivity = {
+  id: string;
+  source: "GITHUB" | "LEETCODE";
+  timestamp: Date;
+  type: string;
+  title: string;
+  detail?: string;
+  link: string;
+  status?: string;
+};
+
 const MAX_PAGES = 5;
 
 async function getGitHubActivity(page = 1): Promise<GitHubEvent[]> {
@@ -33,18 +52,13 @@ async function getGitHubActivity(page = 1): Promise<GitHubEvent[]> {
     const res = await fetch(
       `https://api.github.com/users/kotaitos/events?per_page=30&page=${page}`,
       {
-        next: { revalidate: 3600 }, // Update every hour
+        next: { revalidate: 3600 },
         headers: {
-          "User-Agent": "kotaitos-blog-v1", // GitHub API requires a User-Agent
+          "User-Agent": "kotaitos-blog-v1",
         },
       },
     );
-
-    if (!res.ok) {
-      console.error(`GitHub API responded with status: ${res.status}`);
-      return [];
-    }
-
+    if (!res.ok) return [];
     return res.json();
   } catch (error) {
     console.error("Error fetching GitHub activity:", error);
@@ -52,7 +66,18 @@ async function getGitHubActivity(page = 1): Promise<GitHubEvent[]> {
   }
 }
 
-function formatEventType(type: string, payload: GitHubEvent["payload"]) {
+async function getLeetCodeActivity(): Promise<LeetCodeSubmission[]> {
+  try {
+    const leetcode = new LeetCode();
+    const submissions = await leetcode.recent_submissions("noai-kotaitos");
+    return (submissions || []) as unknown as LeetCodeSubmission[];
+  } catch (error) {
+    console.error("Error fetching LeetCode activity:", error);
+    return [];
+  }
+}
+
+function formatGitHubEventType(type: string, payload: GitHubEvent["payload"]) {
   switch (type) {
     case "PushEvent":
       return "PUSH";
@@ -75,7 +100,7 @@ function formatEventType(type: string, payload: GitHubEvent["payload"]) {
   }
 }
 
-function getEventDetails(event: GitHubEvent) {
+function getGitHubEventDetails(event: GitHubEvent) {
   switch (event.type) {
     case "PushEvent":
       return (
@@ -94,35 +119,44 @@ function getEventDetails(event: GitHubEvent) {
   }
 }
 
-import { GitHubStats } from "./GitHubStats";
-
-// ... (existing imports and types)
-
-// ... (existing functions)
-
 export async function RecentActivity({ page = 1 }: { page?: number }) {
   const currentPage = Math.max(1, Math.min(page, MAX_PAGES));
-  const events = await getGitHubActivity(currentPage);
 
-  if (events.length === 0) {
+  const [githubEvents, leetcodeEvents] = await Promise.all([
+    getGitHubActivity(currentPage),
+    currentPage === 1 ? getLeetCodeActivity() : Promise.resolve([]),
+  ]);
+
+  const unifiedEvents: UnifiedActivity[] = [
+    ...githubEvents.map((e) => ({
+      id: e.id,
+      source: "GITHUB" as const,
+      timestamp: new Date(e.created_at),
+      type: formatGitHubEventType(e.type, e.payload),
+      title: e.repo.name.split("/")[1] || e.repo.name,
+      detail: getGitHubEventDetails(e),
+      link: `https://github.com/${e.repo.name}`,
+    })),
+    ...leetcodeEvents.map((e, i) => ({
+      id: `lc-${e.timestamp}-${i}`,
+      source: "LEETCODE" as const,
+      timestamp: new Date(Number(e.timestamp) * 1000),
+      type: "SOLVED",
+      title: e.title,
+      detail: e.lang,
+      status: e.statusDisplay,
+      link: `https://leetcode.com/problems/${e.titleSlug}/`,
+    })),
+  ].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
+  if (unifiedEvents.length === 0) {
     return (
       <div className="w-full mt-6 font-mono">
-        <GitHubStats />
         <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
-          &gt; GitHub.Activity.Recent --limit=30
+          &gt; Activity.Recent --limit=30
         </h2>
         <div className="border-l border-border/50 pl-3 ml-1 text-muted-foreground/50 text-[10.5px]">
           No logs found.
-        </div>
-        <div className="mt-4 flex gap-4 text-xs ml-4">
-          {currentPage > 1 && (
-            <Link
-              href={`/?page=${currentPage - 1}`}
-              className="hover:text-primary"
-            >
-              &lt; PREV
-            </Link>
-          )}
         </div>
       </div>
     );
@@ -130,19 +164,18 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
 
   return (
     <div className="w-full mt-6 font-mono">
-      <GitHubStats />
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
-        &gt; GitHub.Activity.Recent --limit=30
+        &gt; Activity.Recent --limit=30
       </h2>
       <div className="space-y-0.5 border-l border-border/50 pl-3 ml-1">
-        {events.map((event) => (
+        {unifiedEvents.map((event) => (
           <div
             key={event.id}
             className="text-[10.5px] leading-tight flex items-baseline gap-2 group"
           >
             <span className="text-muted-foreground shrink-0 tabular-nums opacity-50 w-24">
               [
-              {new Date(event.created_at).toLocaleString("en-US", {
+              {event.timestamp.toLocaleString("en-US", {
                 month: "short",
                 day: "2-digit",
                 hour: "2-digit",
@@ -151,19 +184,29 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
               })}
               ]
             </span>
-            <span className="font-bold shrink-0 text-primary/70 w-[75px]">
-              {formatEventType(event.type, event.payload)}
+            <span
+              className={`font-bold shrink-0 w-16 text-[9px] opacity-40 ${event.source === "LEETCODE" ? "text-yellow-500" : "text-primary"}`}
+            >
+              {event.source === "LEETCODE" ? "LeetCode" : "GitHub"}
+            </span>
+            <span
+              className={`font-bold shrink-0 w-[65px] ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}
+            >
+              {event.type}
             </span>
             <div className="flex-1 min-w-0 flex items-baseline gap-1.5">
               <Link
-                href={`https://github.com/${event.repo.name}`}
+                href={event.link}
                 target="_blank"
                 className="font-bold hover:text-primary transition-colors shrink-0 truncate max-w-[240px]"
               >
-                {event.repo.name.split("/")[1] || event.repo.name}
+                {event.title}
               </Link>
               <span className="text-muted-foreground truncate opacity-40 group-hover:opacity-100 transition-opacity">
-                {getEventDetails(event) && `- ${getEventDetails(event)}`}
+                {event.detail && `- ${event.detail}`}
+                {event.status &&
+                  event.status !== "Accepted" &&
+                  ` (${event.status})`}
               </span>
             </div>
           </div>
@@ -174,22 +217,20 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
         {currentPage > 1 ? (
           <Link
             href={`/?page=${currentPage - 1}`}
-            className="hover:text-primary transition-colors"
+            className="hover:text-primary"
           >
             [&lt;PREV]
           </Link>
         ) : (
           <span className="opacity-20 cursor-not-allowed">[&lt;PREV]</span>
         )}
-
         <span className="opacity-40 font-normal">
           {currentPage}/{MAX_PAGES}
         </span>
-
         {currentPage < MAX_PAGES ? (
           <Link
             href={`/?page=${currentPage + 1}`}
-            className="hover:text-primary transition-colors"
+            className="hover:text-primary"
           >
             [NEXT&gt;]
           </Link>
