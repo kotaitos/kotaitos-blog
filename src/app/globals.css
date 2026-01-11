@@ -105,3 +105,76 @@
   }
 }
 
+/* Seasonal Background Animations */
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    opacity: 0.15;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translateY(-10px) translateX(10px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-20px) translateX(-10px);
+    opacity: 0.15;
+  }
+  75% {
+    transform: translateY(-10px) translateX(10px);
+    opacity: 0.15;
+  }
+  95% {
+    opacity: 0.15;
+  }
+  to {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) translateY(0);
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  to {
+    transform: rotate(360deg) translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.15;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(50vh);
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.15;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
