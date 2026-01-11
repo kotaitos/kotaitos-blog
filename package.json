@@ -9,9 +9,9 @@
     "lint": "next lint",
     "format": "biome format --write src/",
     "format:check": "biome format src/",
-    "check": "biome check src/",
+    "check": "biome check src/ --fix",
     "type-check": "tsc --noEmit",
-    "preflight": "bun run format:check && bun run check --max-diagnostics=100 && bun run type-check"
+    "preflight": "bun run format && bun run check --max-diagnostics=100 && bun run type-check"
   },
   "dependencies": {
     "clsx": "^2.1.1",

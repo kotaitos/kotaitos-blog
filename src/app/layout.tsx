@@ -4,6 +4,7 @@ import "./globals.css";
 import ClickSpark from "@/shared/components/ClickSpark";
 import { Footer } from "@/shared/components/Footer";
 import { Navigation } from "@/shared/components/Navigation";
+import { SeasonalBackground } from "@/shared/components/SeasonalBackground";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`scroll-smooth ${jetbrainsMono.variable}`}>
       <body className="font-mono">
+        <SeasonalBackground />
         <ClickSpark
           sparkColor="#22c55e"
           sparkSize={8}
