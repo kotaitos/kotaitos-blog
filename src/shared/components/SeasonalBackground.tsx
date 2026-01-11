@@ -265,13 +265,15 @@ function updateParticle(
           p.x -= (dx / dist) * force * 1.5;
           p.y -= (dy / dist) * force * 1.5;
           break;
-        case "autumn": // Leaves: Swirling
+        case "autumn": {
+          // Leaves: Swirling
           const angle = Math.atan2(dy, dx) + 0.1;
           const targetX = mouse.x + Math.cos(angle) * dist;
           const targetY = mouse.y + Math.sin(angle) * dist;
           p.x += (targetX - p.x) * 0.05;
           p.y += (targetY - p.y) * 0.05;
           break;
+        }
         case "winter": // Snow: Pushed by wind
           p.vx += (dx / dist) * force * 0.2;
           p.vy += (dy / dist) * force * 0.2;
@@ -289,7 +291,8 @@ function updateParticle(
     const maxClickDist = 300;
 
     if (dist < maxClickDist) {
-      const clickForce = ((maxClickDist - dist) / maxClickDist) * (1 - clickAge / 1000) * 15;
+      const clickForce =
+        ((maxClickDist - dist) / maxClickDist) * (1 - clickAge / 1000) * 15;
       p.x += (dx / dist) * clickForce;
       p.y += (dy / dist) * clickForce;
     }
@@ -305,10 +308,10 @@ function updateParticle(
     case "spring":
       p.x += Math.sin(p.y * 0.01 + p.angle) * 0.3;
       break;
-    case "summer":
+    case "summer": {
       // Random wandering movement
-      p.vx += (Math.random() * 0.2 - 0.1);
-      p.vy += (Math.random() * 0.2 - 0.1);
+      p.vx += Math.random() * 0.2 - 0.1;
+      p.vy += Math.random() * 0.2 - 0.1;
 
       // Keep velocity within bounds
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
@@ -326,6 +329,7 @@ function updateParticle(
       }
       p.life--;
       break;
+    }
     case "autumn":
       p.x += Math.cos(p.y * 0.005) * 0.2;
       break;
