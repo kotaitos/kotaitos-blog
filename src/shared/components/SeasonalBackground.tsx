@@ -24,7 +24,7 @@ export function SeasonalBackground() {
   const [season, setSeason] = useState<Season>("spring");
 
   // Debug mode toggle
-  const debugMode = true;
+  const debugMode = false;
   const forcedSeason: Season = "summer";
 
   useEffect(() => {
