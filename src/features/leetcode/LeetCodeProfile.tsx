@@ -1,46 +1,4 @@
-import { LeetCode } from "leetcode-query";
-
-interface Badge {
-  name: string;
-}
-
-async function getLeetCodeProfile(username: string) {
-  try {
-    const leetcode = new LeetCode();
-    const user = await leetcode.user(username);
-
-    if (!user || !user.matchedUser) {
-      return null;
-    }
-
-    const { matchedUser } = user;
-    const submitStats = matchedUser.submitStats.acSubmissionNum;
-    const easy = submitStats.find((s) => s.difficulty === "Easy")?.count || 0;
-    const medium =
-      submitStats.find((s) => s.difficulty === "Medium")?.count || 0;
-    const hard = submitStats.find((s) => s.difficulty === "Hard")?.count || 0;
-    const all = submitStats.find((s) => s.difficulty === "All")?.count || 0;
-
-    return {
-      stats: {
-        easy,
-        medium,
-        hard,
-        all,
-        ranking: matchedUser.profile.ranking,
-        reputation: matchedUser.profile.reputation,
-        points: matchedUser.contributions.points,
-      },
-      badges: [
-        ...(matchedUser.badges as unknown as Badge[]),
-        ...(matchedUser.upcomingBadges as unknown as Badge[]),
-      ],
-    };
-  } catch (error) {
-    console.error("Error fetching LeetCode profile:", error);
-    return null;
-  }
-}
+import { getLeetCodeProfile } from "./api";
 
 export async function LeetCodeProfile() {
   const profile = await getLeetCodeProfile("noai-kotaitos");
@@ -86,26 +44,6 @@ export async function LeetCodeProfile() {
           </div>
         </div>
       </div>
-
-      {/* Badges */}
-      {/* {profile.badges.length > 0 && (
-        <div className="border-l border-border/50 pl-3 ml-1">
-          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[9px] text-muted-foreground/40 uppercase">
-            <span className="font-bold text-primary/40 mr-1">BADGES:</span>
-            {profile.badges.map((badge, index) => (
-              <span
-                key={`${badge.name}-${index}`}
-                className="flex items-center gap-1"
-              >
-                <span>{badge.name}</span>
-                {index < profile.badges.length - 1 && (
-                  <span className="opacity-30">/</span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

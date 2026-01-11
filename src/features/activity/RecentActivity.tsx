@@ -1,123 +1,13 @@
-import { LeetCode } from "leetcode-query";
 import Link from "next/link";
-
-type GitHubEvent = {
-  id: string;
-  type: string;
-  created_at: string;
-  repo: {
-    name: string;
-  };
-  payload: {
-    action?: string;
-    commits?: Array<{
-      message: string;
-    }>;
-    issue?: {
-      title: string;
-    };
-    pull_request?: {
-      title: string;
-    };
-    ref?: string;
-    release?: {
-      tag_name: string;
-    };
-  };
-};
-
-type LeetCodeSubmission = {
-  timestamp: string;
-  title: string;
-  titleSlug: string;
-  statusDisplay: string;
-  lang: string;
-};
-
-type UnifiedActivity = {
-  id: string;
-  source: "GITHUB" | "LEETCODE";
-  timestamp: Date;
-  type: string;
-  title: string;
-  detail?: string;
-  link: string;
-  status?: string;
-};
+import {
+  formatGitHubEventType,
+  getGitHubActivity,
+  getGitHubEventDetails,
+} from "@/features/github/api";
+import { getLeetCodeActivity } from "@/features/leetcode/api";
+import type { UnifiedActivity } from "./types";
 
 const MAX_PAGES = 5;
-
-async function getGitHubActivity(page = 1): Promise<GitHubEvent[]> {
-  try {
-    const res = await fetch(
-      `https://api.github.com/users/kotaitos/events?per_page=30&page=${page}`,
-      {
-        next: { revalidate: 3600 },
-        headers: {
-          "User-Agent": "kotaitos-blog-v1",
-        },
-      },
-    );
-    if (!res.ok) return [];
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching GitHub activity:", error);
-    return [];
-  }
-}
-
-async function getLeetCodeActivity(): Promise<LeetCodeSubmission[]> {
-  try {
-    const leetcode = new LeetCode();
-    const submissions = await leetcode.recent_submissions("noai-kotaitos");
-    return (submissions || []) as unknown as LeetCodeSubmission[];
-  } catch (error) {
-    console.error("Error fetching LeetCode activity:", error);
-    return [];
-  }
-}
-
-function formatGitHubEventType(type: string, payload: GitHubEvent["payload"]) {
-  switch (type) {
-    case "PushEvent":
-      return "PUSH";
-    case "PullRequestEvent":
-      return payload.action === "closed"
-        ? "PR MERGED"
-        : `PR ${payload.action?.toUpperCase()}`;
-    case "CreateEvent":
-      return "CREATE";
-    case "IssuesEvent":
-      return `ISSUE ${payload.action?.toUpperCase()}`;
-    case "WatchEvent":
-      return "STAR";
-    case "ForkEvent":
-      return "FORK";
-    case "ReleaseEvent":
-      return "RELEASE";
-    default:
-      return type.replace("Event", "").toUpperCase();
-  }
-}
-
-function getGitHubEventDetails(event: GitHubEvent) {
-  switch (event.type) {
-    case "PushEvent":
-      return (
-        event.payload.commits?.[0]?.message ||
-        event.payload.ref?.replace("refs/heads/", "") ||
-        ""
-      );
-    case "PullRequestEvent":
-      return event.payload.pull_request?.title || "";
-    case "IssuesEvent":
-      return event.payload.issue?.title || "";
-    case "ReleaseEvent":
-      return event.payload.release?.tag_name || "";
-    default:
-      return "";
-  }
-}
 
 export async function RecentActivity({ page = 1 }: { page?: number }) {
   const currentPage = Math.max(1, Math.min(page, MAX_PAGES));
@@ -185,12 +75,12 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
               ]
             </span>
             <span
-              className={`font-bold shrink-0 w-16 text-[9px] opacity-40 ${event.source === "LEETCODE" ? "text-yellow-500" : "text-primary"}`}
+              className={`font-bold shrink-0 w-16 opacity-40 ${event.source === "LEETCODE" ? "text-yellow-500" : "text-primary"}`}
             >
               {event.source === "LEETCODE" ? "LeetCode" : "GitHub"}
             </span>
             <span
-              className={`font-bold shrink-0 w-[65px] ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}
+              className={`font-bold shrink-0 w-[85px] ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}
             >
               {event.type}
             </span>

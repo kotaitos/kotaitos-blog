@@ -1,5 +1,5 @@
+import { RecentActivity } from "@/features/activity/RecentActivity";
 import { GitHubProfile } from "@/features/github/GitHubProfile";
-import { RecentActivity } from "@/features/github/RecentActivity";
 import { LeetCodeProfile } from "@/features/leetcode/LeetCodeProfile";
 import { NeofetchProfile } from "@/features/profile/NeofetchProfile";
 import { ZennArticles } from "@/features/zenn/ZennArticles";
