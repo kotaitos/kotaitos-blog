@@ -119,8 +119,6 @@ function getGitHubEventDetails(event: GitHubEvent) {
   }
 }
 
-import { GitHubStats } from "./GitHubStats";
-
 export async function RecentActivity({ page = 1 }: { page?: number }) {
   const currentPage = Math.max(1, Math.min(page, MAX_PAGES));
 
@@ -154,7 +152,6 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
   if (unifiedEvents.length === 0) {
     return (
       <div className="w-full mt-6 font-mono">
-        <GitHubStats />
         <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
           &gt; Activity.Recent --limit=30
         </h2>
@@ -167,7 +164,6 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
 
   return (
     <div className="w-full mt-6 font-mono">
-      <GitHubStats />
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
         &gt; Activity.Recent --limit=30
       </h2>
@@ -188,8 +184,10 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
               })}
               ]
             </span>
-            <span className={`font-bold shrink-0 w-16 text-[9px] opacity-40 ${event.source === 'LEETCODE' ? 'text-yellow-500' : 'text-primary'}`}>
-              {event.source === 'LEETCODE' ? 'LeetCode' : 'GitHub'}
+            <span
+              className={`font-bold shrink-0 w-16 text-[9px] opacity-40 ${event.source === "LEETCODE" ? "text-yellow-500" : "text-primary"}`}
+            >
+              {event.source === "LEETCODE" ? "LeetCode" : "GitHub"}
             </span>
             <span
               className={`font-bold shrink-0 w-[65px] ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}

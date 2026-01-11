@@ -1,4 +1,4 @@
-import { LanguageStats } from "@/features/github/LanguageStats";
+import { GitHubProfile } from "@/features/github/GitHubProfile";
 import { RecentActivity } from "@/features/github/RecentActivity";
 import { LeetCodeProfile } from "@/features/leetcode/LeetCodeProfile";
 import { NeofetchProfile } from "@/features/profile/NeofetchProfile";
@@ -17,9 +17,11 @@ export default async function Home({
       <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
         <div className="space-y-12 lg:col-span-3">
           <NeofetchProfile />
-          <LanguageStats />
-          <ZennArticles />
-          <LeetCodeProfile />
+          <div className="space-y-10">
+            <GitHubProfile />
+            <LeetCodeProfile />
+            <ZennArticles />
+          </div>
         </div>
         <div className="lg:col-span-2">
           <RecentActivity page={page} />

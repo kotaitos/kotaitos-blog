@@ -88,7 +88,7 @@ export async function LeetCodeProfile() {
       </div>
 
       {/* Badges */}
-      {profile.badges.length > 0 && (
+      {/* {profile.badges.length > 0 && (
         <div className="border-l border-border/50 pl-3 ml-1">
           <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[9px] text-muted-foreground/40 uppercase">
             <span className="font-bold text-primary/40 mr-1">BADGES:</span>
@@ -105,7 +105,7 @@ export async function LeetCodeProfile() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
