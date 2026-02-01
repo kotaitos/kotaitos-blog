@@ -80,7 +80,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
               {event.source === "LEETCODE" ? "LeetCode" : "GitHub"}
             </span>
             <span
-              className={`font-bold shrink-0 w-[85px] ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}
+              className={`font-bold shrink-0 w-[85px] hidden md:block ${event.source === "LEETCODE" ? "text-yellow-500/70" : "text-primary/70"}`}
             >
               {event.type}
             </span>
@@ -108,6 +108,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
           <Link
             href={`/?page=${currentPage - 1}`}
             className="hover:text-primary"
+            scroll={false}
           >
             [&lt;PREV]
           </Link>
@@ -121,6 +122,7 @@ export async function RecentActivity({ page = 1 }: { page?: number }) {
           <Link
             href={`/?page=${currentPage + 1}`}
             className="hover:text-primary"
+            scroll={false}
           >
             [NEXT&gt;]
           </Link>

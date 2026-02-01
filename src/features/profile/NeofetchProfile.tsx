@@ -1,8 +1,8 @@
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex">
-      <span className="text-primary min-w-[140px] font-bold">{label}</span>
-      <span className="text-foreground">{value}</span>
+      <span className="text-primary min-w-[100px] md:min-w-[140px] font-bold">{label}</span>
+      <span className="text-foreground break-all">{value}</span>
     </div>
   );
 }
@@ -20,12 +20,12 @@ export function NeofetchProfile() {
   };
 
   return (
-    <div className="w-full font-mono mt-6 select-text">
+    <div className="w-full font-mono mt-4 md:mt-6 select-text">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
         &gt; System.Profile.Fetch
       </h2>
       <div className="border-l border-border/50 pl-3 ml-1 text-[11px] leading-tight">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-start">
           <div className="flex-1 space-y-0.5 pt-2">
             <InfoLine label="User:" value={info.user} />
             <InfoLine label="Role:" value={info.role} />

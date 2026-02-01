@@ -60,7 +60,7 @@ export async function ZennArticles() {
   }
 
   return (
-    <div className="w-full font-mono mt-6">
+    <div className="w-full font-mono mt-4 md:mt-6">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40">
         &gt; Activity.Writing
       </h2>
@@ -68,7 +68,7 @@ export async function ZennArticles() {
         {articles.map((article) => (
           <div
             key={article.link}
-            className="flex items-baseline gap-3 text-[11px] group"
+            className="flex items-baseline gap-2 md:gap-3 text-[11px] group"
           >
             <span className="text-muted-foreground shrink-0 tabular-nums opacity-60 w-24">
               [
@@ -85,7 +85,7 @@ export async function ZennArticles() {
             <Link
               href={article.link}
               target="_blank"
-              className="font-bold hover:text-primary transition-colors truncate flex-1"
+              className="font-bold hover:text-primary transition-colors truncate flex-1 min-w-0"
             >
               {article.title}
             </Link>

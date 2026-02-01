@@ -36,6 +36,7 @@
     @apply bg-background text-foreground;
     font-family: var(--font-mono), "Courier New", Courier, monospace;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
 
   /* プロセ（ブログ記事）のスタイル */

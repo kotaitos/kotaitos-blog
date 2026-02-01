@@ -22,7 +22,7 @@ export async function GitHubProfile() {
   if (!profile) return null;
 
   return (
-    <div className="font-mono mt-6">
+    <div className="font-mono mt-4 md:mt-6">
       <h2 className="text-xs font-bold mb-3 uppercase tracking-tighter opacity-40 text-foreground">
         &gt; GitHub.Profile.Fetch --user=kotaitos
       </h2>
@@ -58,7 +58,9 @@ export async function GitHubProfile() {
               <span className="w-24 font-bold truncate shrink-0 text-primary/80 uppercase">
                 {lang.name}
               </span>
-              <ProgressBar percentage={lang.percentage} />
+              <span className="hidden md:inline-block">
+                <ProgressBar percentage={lang.percentage} />
+              </span>
               <span className="text-muted-foreground/60 tabular-nums min-w-[40px] opacity-80">
                 {lang.percentage.toFixed(1)}%
               </span>
