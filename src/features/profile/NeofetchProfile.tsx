@@ -1,7 +1,9 @@
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex">
-      <span className="text-primary min-w-[100px] md:min-w-[140px] font-bold">{label}</span>
+      <span className="text-primary min-w-[100px] md:min-w-[140px] font-bold">
+        {label}
+      </span>
       <span className="text-foreground break-all">{value}</span>
     </div>
   );

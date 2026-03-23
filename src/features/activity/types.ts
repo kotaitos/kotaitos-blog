@@ -7,4 +7,5 @@ export type UnifiedActivity = {
   detail?: string;
   link: string;
   status?: string;
+  count?: number;
 };
